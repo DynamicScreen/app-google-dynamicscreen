@@ -1,0 +1,23 @@
+{
+  "app": {
+    "name": "Google",
+    "description": "Utilise les services de google pour afficher des données",
+    "author": {
+      "name": "DynamicScreen",
+      "email": "bonjour@dynamicscreen.com"
+    }
+  },
+  "privileges": {
+    "needs_account": {
+      "unsplash": {
+        "why": "Le compte Google nous permet de d'afficher vos informations."
+      }
+    }
+  },
+  "modules": {
+    "unsplash-official": {
+      "name": "Unsplash",
+      "description": "Permet la connexion entre Google et DynamicScreen pour afficher votre donnée."
+    }
+  }
+}

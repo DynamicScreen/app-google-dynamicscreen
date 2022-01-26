@@ -1,0 +1,23 @@
+{
+  "app": {
+    "name": "Google",
+    "description": "Uses google services to display data",
+    "author": {
+      "name": "DynamicScreen",
+      "email": "bonjour@dynamicscreen.com"
+    }
+  },
+  "privileges": {
+    "needs_account": {
+      "unsplash": {
+        "why": "We use the google account to fetch live data from your account"
+      }
+    }
+  },
+  "modules": {
+    "google-driver": {
+      "name": "Google Auth Provider",
+      "description": "Allow data fetching from Google API."
+    }
+  }
+}

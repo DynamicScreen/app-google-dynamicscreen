@@ -1,0 +1,32 @@
+# YAML
+id: app-google-dynamicscreen
+name: app.name
+description: app.description
+logo: fa fa-google
+version: 0.1.0
+channel: stable
+api-level: 1
+color: red
+author:
+    name: DynamicScreen
+    email: bonjour@dynamicscreen.com
+privileges:
+    needs_account:
+        -   identifier: google-driver
+            type: google
+            why: privileges.needs_account.google.why
+modules:
+    -   name: modules.google-driver.name
+        logo: fa fa-google
+        description: modules.google-driver.description
+        identifier: google-driver
+        color: red
+        type: auth-provider
+        options:
+            provider: google
+            vue:
+                component: src/GoogleDriver/GoogleAccountDriver.ts
+            php:
+                handler: \DynamicScreen\Google\GoogleDriver\GoogleAuthProviderHandler
+            node:
+                handler: src/handler.js
