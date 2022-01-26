@@ -1,7 +1,7 @@
 <?php
 
 
-namespace DynamicScreen\Today\Unsplash;
+namespace DynamicScreen\Google\GoogleDriver;
 
 use DynamicScreen\SdkPhp\Interfaces\IModule;
 use DynamicScreen\SdkPhp\Handlers\OAuthProviderHandler;
