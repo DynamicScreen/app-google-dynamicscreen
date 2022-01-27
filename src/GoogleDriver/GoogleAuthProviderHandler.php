@@ -5,6 +5,7 @@ namespace DynamicScreen\Google\GoogleDriver;
 
 use DynamicScreen\SdkPhp\Interfaces\IModule;
 use DynamicScreen\SdkPhp\Handlers\OAuthProviderHandler;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
@@ -55,11 +56,12 @@ class GoogleAuthProviderHandler extends OAuthProviderHandler
 
     public function callback($request, $redirectUrl = null)
     {
-        $client = $this->getGoogleClient($redirectUrl);
+        $code = request()->get('code');
+        $client = $this->getGoogleClient();
         $client->setAccessType('offline');
-        $access_token = $client->getAccessToken();
+        $client->fetchAccessTokenWithAuthCode($code);
+        $options = $client->getAccessToken();
 
-        $options = ['active' => true, 'token' => $access_token->getValue(), 'expires' => $access_token->getExpiresAt()];
         $data = $this->processOptions($options);
         $dataStr = json_encode($data);
 
@@ -89,15 +91,13 @@ class GoogleAuthProviderHandler extends OAuthProviderHandler
 
     public function refreshToken($client)
     {
-        if (!$this->default_config) {
-            return ;
+        if (!Arr::get($this->default_config, 'access_token')) {
+            return [];
         }
-
         try {
             $client->setAccessToken($this->default_config);
         } catch (\InvalidArgumentException $exception) {
-            dd($exception, 'e');
-            return;
+            return [];
         }
 
         if ($client->isAccessTokenExpired()) {
@@ -108,7 +108,6 @@ class GoogleAuthProviderHandler extends OAuthProviderHandler
 
             // Google failed to provide token: auth failed
             if (!$new_access || !isset($new_access['access_token'])) {
-                dd('auth failed provide token');
                 return;
             }
 
