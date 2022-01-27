@@ -25,7 +25,7 @@ modules:
         options:
             provider: google
             vue:
-                component: src/GoogleDriver/GoogleAccountDriver.ts
+                component: src/GoogleDriver/GoogleAccountOptions.ts
             php:
                 handler: \DynamicScreen\Google\GoogleDriver\GoogleAuthProviderHandler
             node:
