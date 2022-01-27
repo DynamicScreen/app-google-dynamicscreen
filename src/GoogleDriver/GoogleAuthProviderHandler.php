@@ -40,12 +40,15 @@ class GoogleAuthProviderHandler extends OAuthProviderHandler
 
     public function signin($callbackUrl = null)
     {
+        $callback_url = $callbackUrl ?? route('api.oauth.callback');
+//        $callback_url = "https://b01dbb8c01a5.ngrok.io/api/oauth/callback";
+
+        $data = Session::get('auth_provider');
+        $data = json_encode($data);
+
         $client = $this->getGoogleClient();
-
-        $ds_uuid = Str::uuid();
-
-        $client->setRedirectUri(route('oauth.callback', ['driver_id' => $this->identifier()]));
-        $client->setState($ds_uuid);
+        $client->setState($data);
+        $client->setRedirectUri($callback_url);
         $client->setApprovalPrompt('force');
 
         $auth_url = $client->createAuthUrl();
@@ -56,36 +59,32 @@ class GoogleAuthProviderHandler extends OAuthProviderHandler
 
     public function callback($request, $redirectUrl = null)
     {
-        $state = Session::get($request->input('state'));
-        $account = $this->extractAccount($state['account_id']);
-        $space_name = $state['space_name'];
         $code = $request->input('code');
 
         $client = $this->getGoogleClient();
         $client->setAccessType('offline');
-        $client->fetchAccessTokenWithAuthCode($code);
-
+        $client->setRedirectUri($redirectUrl);
         $access_token = $client->getAccessToken();
 
-        $options = ['active' => true, 'token' => $accessToken->getValue(), 'expires' => $accessToken->getExpiresAt()];
+        $options = ['active' => true, 'token' => $access_token->getValue(), 'expires' => $access_token->getExpiresAt()];
         $data = $this->processOptions($options);
         $dataStr = json_encode($data);
 
         return redirect()->away($redirectUrl ."&data=$dataStr");
     }
 
-    public function getGoogleClient($account = null)
+    public function getGoogleClient($config = null)
     {
-        $client = new Google_Client();
+        $config = $config ?? $this->default_config;
 
-        $client->setApplicationName(config('google.APP_NAME'));
-        $client->setClientId(config('google.CLIENT_ID'));
-        $client->setClientSecret(config('google.CLIENT_SECRET'));
+        $client = new \Google_Client();
+
+        $client->setApplicationName(config("services.{$this->getProviderIdentifier()}.app_name"));
+        $client->setClientId(config("services.{$this->getProviderIdentifier()}.client_id"));
+        $client->setClientSecret(config("services.{$this->getProviderIdentifier()}.client_secret"));
         $client->setAccessType('offline');
 
-        $client->setRedirectUri(route('oauth.callback', ['driver_id' => $this->identifier()]));
-
-        $this->refreshAccountIfNeeded($client, $account);
+        $this->refreshToken($client);
 
         foreach ($this->getScopes() as $scope) {
             $client->addScope($scope);
@@ -94,41 +93,35 @@ class GoogleAuthProviderHandler extends OAuthProviderHandler
         return $client;
     }
 
-    /**
-     * @param Google_Client $client
-     * @param Account        $account
-     */
-    public function refreshAccountIfNeeded(Google_Client $client, ?Account $account) : void
+    public function refreshToken($client)
     {
-        if (isset($account)) {
-            try {
-                $client->setAccessToken($account->options);
-            } catch (\InvalidArgumentException $exception) {
-                $account->authIsFailing();
+        if (!$this->default_config) {
+            return ;
+        }
+
+        try {
+            $client->setAccessToken($this->default_config);
+        } catch (\InvalidArgumentException $exception) {
+            dd($exception, 'e');
+            return;
+        }
+
+        if ($client->isAccessTokenExpired()) {
+            $refresh_token = $client->getRefreshToken();
+
+            $new_access = $client->fetchAccessTokenWithRefreshToken($refresh_token);
+            $options = $this->processOptions($new_access);
+
+            // Google failed to provide token: auth failed
+            if (!$new_access || !isset($new_access['access_token'])) {
+                dd('auth failed provide token');
                 return;
             }
 
-            if ($client->isAccessTokenExpired()) {
-                $refresh_token = $client->getRefreshToken();
-
-                $new_access = $client->fetchAccessTokenWithRefreshToken($refresh_token);
-                $account->options = $this->processOptions($new_access);
-
-                // Google failed to provide token: auth failed
-                if (!$new_access || !isset($new_access['access_token'])) {
-                    $account->authIsFailing();
-                    return;
-                }
-
-                if ($account->save()) {
-                    $account->log('Token refreshed');
-                }
-
-                $client->setAccessToken($new_access);
-            }
-
-            $account->authIsWorking();
+            $client->setAccessToken($new_access);
         }
+
+        return $this->processOptions($options);
     }
 
     protected function getScopes() : array
