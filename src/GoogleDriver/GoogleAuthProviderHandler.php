@@ -40,15 +40,11 @@ class GoogleAuthProviderHandler extends OAuthProviderHandler
 
     public function signin($callbackUrl = null)
     {
-        $callback_url = $callbackUrl ?? route('api.oauth.callback');
-//        $callback_url = "https://b01dbb8c01a5.ngrok.io/api/oauth/callback";
-
         $data = Session::get('auth_provider');
         $data = json_encode($data);
 
-        $client = $this->getGoogleClient();
+        $client = $this->getGoogleClient($callbackUrl);
         $client->setState($data);
-        $client->setRedirectUri($callback_url);
         $client->setApprovalPrompt('force');
 
         $auth_url = $client->createAuthUrl();
@@ -59,11 +55,8 @@ class GoogleAuthProviderHandler extends OAuthProviderHandler
 
     public function callback($request, $redirectUrl = null)
     {
-        $code = $request->input('code');
-
-        $client = $this->getGoogleClient();
+        $client = $this->getGoogleClient($redirectUrl);
         $client->setAccessType('offline');
-        $client->setRedirectUri($redirectUrl);
         $access_token = $client->getAccessToken();
 
         $options = ['active' => true, 'token' => $access_token->getValue(), 'expires' => $access_token->getExpiresAt()];
@@ -73,9 +66,9 @@ class GoogleAuthProviderHandler extends OAuthProviderHandler
         return redirect()->away($redirectUrl ."&data=$dataStr");
     }
 
-    public function getGoogleClient($config = null)
+    public function getGoogleClient($redirectUrl = null)
     {
-        $config = $config ?? $this->default_config;
+        $redirectUrl = $redirectUrl ?? route('api.oauth.callback');
 
         $client = new \Google_Client();
 
@@ -83,6 +76,7 @@ class GoogleAuthProviderHandler extends OAuthProviderHandler
         $client->setClientId(config("services.{$this->getProviderIdentifier()}.client_id"));
         $client->setClientSecret(config("services.{$this->getProviderIdentifier()}.client_secret"));
         $client->setAccessType('offline');
+        $client->setRedirectUri($redirectUrl);
 
         $this->refreshToken($client);
 
