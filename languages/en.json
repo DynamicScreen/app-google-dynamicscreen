@@ -9,7 +9,7 @@
   },
   "privileges": {
     "needs_account": {
-      "unsplash": {
+      "google": {
         "why": "We use the google account to fetch live data from your account"
       }
     }

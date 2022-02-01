@@ -9,14 +9,14 @@
   },
   "privileges": {
     "needs_account": {
-      "unsplash": {
+      "google": {
         "why": "Le compte Google nous permet de d'afficher vos informations."
       }
     }
   },
   "modules": {
-    "unsplash-official": {
-      "name": "Unsplash",
+    "google-driver": {
+      "name": "Google",
       "description": "Permet la connexion entre Google et DynamicScreen pour afficher votre donnée."
     }
   }
