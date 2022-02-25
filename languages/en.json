@@ -15,6 +15,24 @@
     }
   },
   "modules": {
+    "slide": {
+      "name": "GSlide",
+      "description": "Display Google Slide presentations",
+      "options": {},
+      "slide": {}
+    },
+    "doc": {
+      "name": "GDoc",
+      "description": "Display Google Sheet spreadsheets",
+      "options": {},
+      "slide": {}
+    },
+    "sheet": {
+      "name": "GSheet",
+      "description": "Display Google Doc documents",
+      "options": {},
+      "slide": {}
+    },
     "google-driver": {
       "name": "Google Auth Provider",
       "description": "Allow data fetching from Google API."

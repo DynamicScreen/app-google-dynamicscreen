@@ -15,6 +15,24 @@
     }
   },
   "modules": {
+    "slide": {
+      "name": "GSlide",
+      "description": "Affiche les présentations Google Slide",
+      "options": {},
+      "slide": {}
+    },
+    "doc": {
+      "name": "GDoc",
+      "description": "Affiche les documents Google Doc",
+      "options": {},
+      "slide": {}
+    },
+    "sheet": {
+      "name": "GSheet",
+      "description": "Affiche les tableurs Google Sheet",
+      "options": {},
+      "slide": {}
+    },
     "google-driver": {
       "name": "Google",
       "description": "Permet la connexion entre Google et DynamicScreen pour afficher votre donnée."

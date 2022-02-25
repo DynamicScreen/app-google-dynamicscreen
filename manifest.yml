@@ -30,3 +30,55 @@ modules:
                 handler: \DynamicScreen\Google\GoogleDriver\GoogleAuthProviderHandler
             node:
                 handler: src/handler.js
+    -   name: modules.slide.name
+        logo: far fa-google-drive
+        identifier: google-slide
+        color: orange
+        type: slide
+        description: modules.slide.description
+        options:
+            privileges:
+                needs_account:
+                    - google-driver
+            vue:
+                component: src/Slide/Slide.ts
+                options: src/Slide/SlideOptions.ts
+            php:
+                handler: \DynamicScreen\Google\Slide\SlideSlideHandler
+            node:
+                handler: src/handler.js
+    -   name: modules.sheet.name
+        logo: far fa-google-driver
+        identifier: google-sheet
+        color: green
+        type: slide
+        description: modules.sheet.description
+        options:
+          privileges:
+            needs_account:
+              - google-driver
+          vue:
+            component: src/Sheet/Sheet.ts
+            options: src/Sheet/SheetOptions.ts
+          php:
+            handler: \DynamicScreen\Google\Sheet\SheetSlideHandler
+          node:
+            handler: src/handler.js
+
+    -   name: modules.doc.name
+        logo: far fa-google-drive
+        identifier: google-doc
+        color: blue
+        type: slide
+        description: modules.doc.description
+        options:
+          privileges:
+            needs_account:
+              - google-driver
+          vue:
+            component: src/Doc/Doc.ts
+            options: src/Doc/DocOptions.ts
+          php:
+            handler: \DynamicScreen\Google\Doc\DocSlideHandler
+          node:
+            handler: src/handler.js
