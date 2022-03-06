@@ -16,26 +16,102 @@
   },
   "modules": {
     "slide": {
+      "options": {
+        "media": {
+          "label": "Select a Google Slide"
+        },
+        "type": {
+          "media": "Import from Google Drive",
+          "media_help": "Can't play animations, works without internet connection",
+          "url": "Import via a share link",
+          "url_help": "Keeps GIF and animations, does not work without internet connection"
+        },
+        "url": {
+          "label": "URL address of the file",
+          "help": "Slides animations can increase the display duration",
+          "must_be_shared_with": "You must share this document with the share account.",
+          "must_be_accessible_with": "This document must be accessible in read-only mode for the selected account."
+        },
+        "use_share_account": "Use share account",
+        "share_link_doc_label": "How to get the share link ?",
+        "share_link_doc_url": "http://help.dynamicscreen.fr/en/articles/3798671-broadcast-google-slide-with-animations",
+        "error_msg": "This document is not accessible by DynamicScreen. Consider sharing it on a read-only basis with share@dynamicscreen.fr"
+      },
       "name": "GSlide",
       "description": "Display Google Slide presentations",
-      "options": {},
       "slide": {}
     },
     "doc": {
       "name": "GDoc",
-      "description": "Display Google Sheet spreadsheets",
-      "options": {},
+      "description": "Display Google Doc documents",
+      "options": {
+        "media": {
+          "label": "Select a Google Doc"
+        },
+        "type": {
+          "media": "Import from Google Drive",
+          "media_help": "Works without internet connection",
+          "url": "Import via a share link",
+          "url_help": "Does not work without internet connection"
+        },
+        "url": {
+          "label": "URL address of the file",
+          "must_be_shared_with": "You must share this document with the share account.",
+          "must_be_accessible_with": "This document must be accessible in read-only mode for the selected account."
+        },
+        "use_share_account": "Use share account",
+        "error_msg": "This document is not accessible by DynamicScreen. Consider sharing it on a read-only basis with share@dynamicscreen.fr"
+      },
       "slide": {}
     },
     "sheet": {
       "name": "GSheet",
       "description": "Display Google Doc documents",
-      "options": {},
+      "options": {
+        "media": {
+          "label": "Select a Google Sheet"
+        },
+        "type": {
+          "media": "Import from Google Drive",
+          "media_url": "Works without internet connection",
+          "url": "Import via a share link",
+          "url_help": "Does not work without internet connection"
+        },
+        "url": {
+          "label": "URL address of the file",
+          "must_be_shared_with": "You must share this document with the share account.",
+          "must_be_accessible_with": "This document must be accessible in read-only mode for the selected account."
+        },
+        "use_share_account": "Use share account",
+        "show_grid_lines": "Show grid lines",
+        "show_sheetname": "Show sheet name",
+        "orientation": {
+          "label": "Orientation",
+          "portrait": "Portrait",
+          "landscape": "Landscape"
+        },
+        "alignement": {
+          "centered": "Centered",
+          "left": "To the left",
+          "right": "To the right",
+          "h_align": "Horizontal alignement",
+          "top": "To the top",
+          "bottom": "To the bottom",
+          "v_align": "Vertical alignement"
+        }
+      },
       "slide": {}
     },
     "google-driver": {
       "name": "Google Auth Provider",
-      "description": "Allow data fetching from Google API."
+      "description": "Allow data fetching from Google API.",
+      "options": {
+        "connected_as": "Connected as:",
+        "test_connection": "Test connection",
+        "connected": "Connected",
+        "not_connected": "Not connected",
+        "connect_with_google": "Connect with Google"
+      }
     }
   }
 }

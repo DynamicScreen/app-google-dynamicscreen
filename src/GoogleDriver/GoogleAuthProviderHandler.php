@@ -18,24 +18,30 @@ class GoogleAuthProviderHandler extends OAuthProviderHandler
         parent::__construct($module, $config);
     }
 
+    public function provideData($settings = [])
+    {
+        $this->addData('me', fn () => $this->getUserInfos());
+        $this->addData('test-auth', fn () => $this->testConnection());
+    }
+
     public function testConnection($config = null)
     {
         $config = $config ?? $this->default_config;
 
         try {
-            $this->getUserInfos($config);
+            $this->getUserInfos();
             return response('', 200);
         } catch (\Exception $e) {
-            return response('Connection failed', 403);
+            return response('Connection failed: '. $e->getMessage(), 403);
         }
     }
 
     public function getUserInfos($config = null)
     {
         $config = $config ?? $this->default_config;
-
-        $client = $this->getGoogleClient($config);
+        $client = $this->getGoogleClient();
         $google_oauth = new \Google_Service_Oauth2($client);
+
         return $google_oauth->userinfo->get();
     }
 
@@ -89,7 +95,7 @@ class GoogleAuthProviderHandler extends OAuthProviderHandler
         return $client;
     }
 
-    public function refreshToken($client)
+    public function refreshToken($client = null)
     {
         if (!Arr::get($this->default_config, 'access_token')) {
             return [];
@@ -114,7 +120,7 @@ class GoogleAuthProviderHandler extends OAuthProviderHandler
             $client->setAccessToken($new_access);
         }
 
-        return $this->processOptions($options);
+        return $client;
     }
 
     protected function getScopes() : array

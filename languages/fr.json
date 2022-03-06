@@ -18,24 +18,100 @@
     "slide": {
       "name": "GSlide",
       "description": "Affiche les présentations Google Slide",
-      "options": {},
+      "options": {
+        "media": {
+          "label": "Selectionnez une présentation"
+        },
+        "types": {
+          "media": "Importer depuis Google Drive",
+          "media_help": "Ne permet pas de lire les animations, fonctionne si l'écran perd la connexion Internet.",
+          "url": "Importer à l'aide d'un lien de partage",
+          "url_help": "Permet de conserver les animations et GIF, ne fonctionne pas si l'écran perd la connexion Internet."
+        },
+        "url": {
+          "label": "Adresse URL du fichier",
+          "help": "La durée d'affichage d'une slide peut être altérée par les animations présentes dans celle-ci.",
+          "must_be_shared_with": "Vous devez partager ce document avec le compte de partage.",
+          "must_be_accessible_with": "Ce document doit être accessible en lecteur seule par le compte selectionné."
+        },
+        "use_share_account": "Utiliser le compte partagé",
+        "share_link_doc_label": "Comment obtenir le lien de partage ?",
+        "share_link_doc_url": "http://help.dynamicscreen.fr/fr/articles/3798671-diffuser-un-google-slide-en-conservant-les-animations",
+        "error_msg": "Ce document n'est pas accessible par DynamicScreen. Pensez à la partager en lecture seule avec share@dynamicscreen.fr"
+      },
       "slide": {}
     },
     "doc": {
       "name": "GDoc",
       "description": "Affiche les documents Google Doc",
-      "options": {},
+      "options": {
+        "media": {
+          "label": "Selectionnez un document"
+        },
+        "types": {
+          "media": "Importer depuis Google Drive",
+          "media_help": "Fonctionne si l'écran perd la connexion Internet.",
+          "url": "Importer à l'aide d'un lien de partage",
+          "url_help": "Ne fonctionne pas si l'écran perd la connexion Internet."
+        },
+        "url": {
+          "label": "Adresse URL du fichier",
+          "must_be_shared_with": "Vous devez partager ce document avec le compte de partage.",
+          "must_be_accessible_with": "Ce document doit être accessible en lecteur seule par le compte selectionné."
+        },
+        "use_share_account": "Utiliser le compte partagé",
+        "error_msg": "Ce document n'est pas accessible par DynamicScreen. Pensez à la partager en lecture seule avec share@dynamicscreen.fr"
+      },
       "slide": {}
     },
     "sheet": {
       "name": "GSheet",
       "description": "Affiche les tableurs Google Sheet",
-      "options": {},
+      "options": {
+        "media": {
+          "label": "Selectionnez un tableur"
+        },
+        "type": {
+          "media": "Importer depuis Google Drive",
+          "media_url": "Fonctionne sans connexion internet",
+          "url": "Importer à l'aide d'un lien de partage",
+          "url_help": "Ne fonctionne pas sans connexion internet"
+        },
+        "url": {
+          "label": "Adresse URL du fichier",
+          "must_be_shared_with": "Vous devez partager ce document avec le compte de partage.",
+          "must_be_accessible_with": "Ce document doit être accessible en lecteur seule par le compte selectionné."
+        },
+        "use_share_account": "Utiliser le compte partagé",
+        "show_grid_lines": "Afficher le contour des cellules",
+        "show_sheetname": "Afficher le nom de la feuille",
+        "orientation": {
+          "label": "Orientation",
+          "portrait": "Portrait",
+          "landscape": "Paysage"
+        },
+        "alignement": {
+          "centered": "Centré",
+          "left": "À gauche",
+          "right": "À droite",
+          "h_align": "Alignement horizontal",
+          "top": "En haut",
+          "bottom": "En bas",
+          "v_align": "Alignement vertical"
+        }
+      },
       "slide": {}
     },
     "google-driver": {
       "name": "Google",
-      "description": "Permet la connexion entre Google et DynamicScreen pour afficher votre donnée."
+      "description": "Permet la connexion entre Google et DynamicScreen pour afficher votre donnée.",
+      "options": {
+        "connected_as": "Connecté en tant que:",
+        "test_connection": "Tester la connexion",
+        "connected": "Connecté",
+        "not_connected": "Déconnecté",
+        "connect_with_google": "Se connecter avec Google"
+      }
     }
   }
 }
