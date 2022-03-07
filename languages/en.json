@@ -106,11 +106,13 @@
       "name": "Google Auth Provider",
       "description": "Allow data fetching from Google API.",
       "options": {
-        "connected_as": "Connected as:",
+        "connected_as": "Connected as",
         "test_connection": "Test connection",
+        "test": "Test",
         "connected": "Connected",
         "not_connected": "Not connected",
-        "connect_with_google": "Connect with Google"
+        "connect_with_google": "Connect with Google",
+        "unable_to_connect": "Unable to connect"
       }
     }
   }

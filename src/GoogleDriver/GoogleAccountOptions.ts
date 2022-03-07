@@ -18,9 +18,8 @@ export default class GoogleAccountOptions extends SlideOptionsModule {
     const userInfo = ref<any>(null);
     const testConnection = () => {
       this.context.getAccountData?.('google-driver', 'test-auth', {})
-        .value?.then((data: any) => {
+        .value?.then(() => {
           isAuthConfirmed.value = true;
-          console.log('account data successfully fetched', data)
         }).catch((err) => {
           console.log('error while fetching account data: ', err)
           isAuthConfirmed.value = false;
@@ -36,8 +35,17 @@ export default class GoogleAccountOptions extends SlideOptionsModule {
         }).catch((err) => {
           console.log('error while fetching account data: ', err)
           userInfo.value = null;
-          isAuthConfirmed.value = false;
         });
+    }
+
+    const testButtonText = computed(() => {
+      return isAuthConfirmed.value
+        ? this.t('modules.google-driver.options.connected')
+        : this.t('modules.google-driver.options.test_connection')
+    })
+    const connect = () => {
+      console.log('inertia call to connect')
+      return false;
     }
 
     getUserInfo();
@@ -45,8 +53,8 @@ export default class GoogleAccountOptions extends SlideOptionsModule {
     return () =>
       h("div", {}, [
         userInfo.value && h('div', {}, [
-          h(Field, { label: this.t("modules.google_driver.options.connected_as") }, [
-            h('div', {class: "flex items-center text-left mb-4"}, [
+          h(Field, { label: this.t("modules.google-driver.options.connected_as") }, [
+            h('div', {class: "flex items-center text-left mb-4 mt-2"}, [
               h(Avatar, {
                 image: userInfo.value.picture,
                 circular: true,
@@ -59,17 +67,28 @@ export default class GoogleAccountOptions extends SlideOptionsModule {
               ]),
             ]),
           ]),
-          h(Field, { class: 'flex-1', label: this.t("modules.google_driver.options.test_connection") }, [
-            h(Button, { class: 'action', onClick: testConnection }, this.t('modules.google_driver.options.test'))
+          h('div', {class: "text-center items-center mt-10 mb-2" }, [
+            h(Button, {
+              class: 'action',
+              rightIcon: isAuthConfirmed.value ? 'far fa-check' : '',
+              onClick: testConnection,
+              theme: 'secondary',
+              disabled: isAuthConfirmed.value,
+              size: 'lg'
+            }, testButtonText.value)
           ]),
-          isAuthConfirmed && h('p', { class: "text-green-500" }, this.t('modules.google_driver.options.connected')),
-          !isAuthConfirmed && h('p', { class: "text-red-500" }, this.t('modules.google_driver.options.not_connected')),
         ]),
-        !userInfo.value && h('div', {}, [
-          h(Field, { class: 'flex-1', label: this.t("modules.google_driver.options.unable_to_connect") }, [
-            h(Button, { class: 'action', onClick: testConnection }, this.t('modules.google_driver.options.connect_with_google'))
-          ]),
-        ])
+        !userInfo.value && h(Field, {
+          class: 'flex-1',
+          label: this.t("modules.google-driver.options.unable_to_connect")
+        }, [
+          h(Button, {
+            class: 'action',
+            onClick: connect,
+            theme: 'soft-danger',
+            size: 'lg'
+          }, this.t('modules.google-driver.options.connect_with_google'))
+        ]),
       ])
   }
 }

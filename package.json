@@ -1,6 +1,7 @@
 {
   "author": "DynamicScreen",
   "dependencies": {
+    "pdfjs-dist": "^2.13.216",
     "webpack": "^5.50.0"
   },
   "peerDependencies": {
@@ -11,12 +12,15 @@
     "ts-loader": "^9.2.5",
     "typescript": "^4.4.3"
   },
+  "resolutions": {
+    "webpack": "^5.32.0"
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Dynamicscreen/app-today-dynamicscreen.git"
+    "url": "git+https://github.com/Dynamicscreen/app-google-dynamicscreen.git"
   },
   "bugs": {
-    "url": "https://github.com/Dynamicscreen/app-today-dynamicscreen/issues"
+    "url": "https://github.com/Dynamicscreen/app-google-dynamicscreen/issues"
   },
-  "homepage": "https://github.com/Dynamicscreen/app-today-dynamicscreen#readme"
+  "homepage": "https://github.com/Dynamicscreen/app-google-dynamicscreen#readme"
 }

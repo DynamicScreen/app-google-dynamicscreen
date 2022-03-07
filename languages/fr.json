@@ -106,11 +106,13 @@
       "name": "Google",
       "description": "Permet la connexion entre Google et DynamicScreen pour afficher votre donnée.",
       "options": {
-        "connected_as": "Connecté en tant que:",
+        "connected_as": "Connecté en tant que",
         "test_connection": "Tester la connexion",
+        "test": "Tester",
         "connected": "Connecté",
         "not_connected": "Déconnecté",
-        "connect_with_google": "Se connecter avec Google"
+        "connect_with_google": "Se connecter avec Google",
+        "unable_to_connect": "Impossible de se connecter"
       }
     }
   }
