@@ -12,6 +12,16 @@
       "google": {
         "why": "We use the google account to fetch live data from your account"
       }
+    },
+    "use_share_account": {
+      "google": {
+        "why": "The shared Google account allows us to display shared information, without logging in with your personal Google account."
+      }
+    },
+    "use_remote_files": {
+      "google": {
+        "why": "Allows you to download files from Google Drive."
+      }
     }
   },
   "modules": {

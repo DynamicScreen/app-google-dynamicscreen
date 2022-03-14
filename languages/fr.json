@@ -12,6 +12,16 @@
       "google": {
         "why": "Le compte Google nous permet de d'afficher vos informations."
       }
+    },
+    "use_share_account": {
+      "google": {
+        "why": "Le compte Google partagé nous permet de d'afficher des informations partagées, sans vous connecter avec votre compte Google personnel."
+      }
+    },
+    "use_remote_files": {
+      "google": {
+        "why": "Permet de télécharger des fichier depuis Google Drive."
+      }
     }
   },
   "modules": {

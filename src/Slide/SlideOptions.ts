@@ -19,12 +19,20 @@ export default class SlideOptions extends SlideOptionsModule {
 
     const account = toRef(props.modelValue, 'account');
     const type = toRef(props.modelValue, 'type') || ref('media');
+    const use_share_account = toRef(props.modelValue, 'use_share_account');
+    watch(use_share_account.value, (val) => {
+      console.log('share acc changed', val)
+    })
+    context.setOption('use_share_account', false)
+    // const use_share_account = toRef(props.modelValue, 'use_share_account') || (() => {
+    //   context.setOption('use_share_account', false)
+    //   return ref(false)
+    // })();
 
-    
-    const use_share_account = toRef(props.modelValue, 'use_share_account') || ref(false);
+
     const remoteFiles = toRef(props.modelValue, 'remoteFiles') || ref([]);
-
-    this.context.getAccountData?.("google-driver", null, {
+    
+    context.getAccountData?.("google-driver", null, {
       onChange: (accountId: number | undefined) => {
         if (accountId) account.value = accountId
       }

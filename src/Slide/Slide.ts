@@ -29,6 +29,7 @@ export default class Slide extends SlideModule {
     const accessToken = computed(() => {
       if (slide.data.use_share_account) {
         // return share acces token ?
+        return slide.data.access_token;
       } else {
         return slide.data.access_token;
       }
@@ -41,11 +42,13 @@ export default class Slide extends SlideModule {
     });
 
     return () => [
-      h('div', {}, [
+      h('div', { class: "flex justify-center items-center w-full h-full" }, [
         type.value === 'url' && h('iframe', {
-          src: iframeUrl
+          class: "w-full h-full",
+          src: iframeUrl.value
         }, []),
         type.value === 'media' && h('div', {
+          class: "w-full h-full",
           style: { backgroundImage: 'url(\'' + imageUrl + '\')' }
         })
       ])

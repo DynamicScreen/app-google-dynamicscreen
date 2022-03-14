@@ -60,6 +60,10 @@ class GoogleAuthProviderHandler extends OAuthProviderHandler
 
     }
 
+    public function getOption($key, $default = null) {
+        return Arr::get($this->default_config, $key, $default);
+    }
+
     public function callback($request, $redirectUrl = null)
     {
         $code = request()->get('code');

@@ -2,7 +2,6 @@
 
 namespace DynamicScreen\Google\Rules;
 
-use Google_Service_Drive;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use GuzzleHttp\Client;
@@ -18,15 +17,12 @@ class CheckGoogleSlideUrl implements Rule
      *
      * @return void
      */
-    public function __construct($fileId, $handler = null)
+    public function __construct($fileId, $driver)
     {
         $this->fileId = $fileId;
 
-        if ($account) {
-            $driver = $account->getDriver();
-            $gclient = $driver->getGoogleClient($account);
-            $this->drive = new Google_Service_Drive($gclient);
-        }
+        $gclient = $driver->getGoogleClient();
+        $this->drive = new \Google_Service_Drive($gclient);
     }
 
     /**

@@ -15,6 +15,14 @@ privileges:
         -   identifier: google-driver
             type: google
             why: privileges.needs_account.google.why
+    use_share_account:
+        -   identifier: google-driver
+            type: google
+            why: privileges.use_share_account.google.why
+    use_remote_files:
+        -   identifier: remoteFiles
+            type: google
+            why: privileges.use_remote_files.google.why
 modules:
     -   name: modules.google-driver.name
         logo: fa fa-google

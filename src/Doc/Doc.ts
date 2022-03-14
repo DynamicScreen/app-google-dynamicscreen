@@ -6,15 +6,34 @@ import {
   IPublicSlide
 } from "dynamicscreen-sdk-js"
 
-import { PDFJS } from 'pdfjs-dist/webpack';
+// import * as PDFJSS from 'pdfjs-dist';
+// import PDFJS from 'pdfjs-dist';
+import url from "pdfjs-dist/build/pdf.worker";
 
+const PDFJS = require('pdfjs-dist');
+// PDFJS.GlobalWorkerOptions.workerSrc = 
+//       "./../../node_modules/pdfjs-dist/build/pdf.worker.js";
 export default class Doc extends SlideModule {
-  protected initPdf;
-  protected initPdfPage;
+  protected pdf;
 
   async onReady() {
-    console.log('on ready doc')
-      this.context.slide.data.type === 'media' && await this.initPdf();
+    console.log('on ready doc', PDFJS)
+      try {
+        console.log('url dist', url);
+        PDFJS.GlobalWorkerOptions.workerSrc = 'app-google-dynamicscreen.slide.google-doc::0.1.0/./node_modules/dynamicscreen-sdk-js/dist/index.js?'
+        // let loadingTask = PDFJS.getDocument(this.context.slide.data.url);
+        // console.log(loadingTask)
+        return true;
+        // await loadingTask.promise.then((pdf) => {
+        //   this.pdf = pdf;
+        //   loadingTask.destroy()
+        // }).catch(err => console.log('cannot ready doc slide', err));
+        console.log('loadingTask complete')
+      } catch (err) {
+        console.log('cannot ready doc slide', err)
+        return false;
+      }
+    console.log('IS ready doc')
 
       return true;
 
@@ -28,31 +47,43 @@ export default class Doc extends SlideModule {
     const imageUrl = ref(slide.data.media?.url)
     const googleDocUrl = ref(slide.data.url);
 
-    let pdf = ref<any>(null);
+    let pdf = ref<any>(this.pdf);
     let canvasContainer = ref<any>(null);
     let canvasPdf = ref<any>(null);
+
+    console.log(PDFJS, 's')
 
 
     this.context.onPrepare(async () => {
       console.log('on prepare doc')
-      this.context.slide.data.type === 'media' && await this.initPdfPage();
+
+      if (!pdf.value) initPdf();
+        
+      await initPdfPage();
     });
 
 
-    this.initPdf = () => {
-      PDFJS.getDocument(googleDocUrl.value).then((pdf) => {
-          pdf.value = pdf;
-          this.initPdfPage()
-      })
+    const initPdf = async () => {
+      console.log('START initpdf')
+      let loadingTask = PDFJS.getDocument(this.context.slide.data.url);
+      await loadingTask.promise.then((pdfDoc) => {
+        console.log('pdf yo', pdfDoc)
+        pdf.value = pdfDoc;
+        loadingTask.destroy()
+      }).catch(err => console.log('cannot ready doc slide', err));
     };
 
     watch(googleDocUrl.value, () => {
-      this.initPdf();
+      initPdf();
     });
 
 
-    this.initPdfPage = () => {
-      pdf.value.getPage(slide.data.page).then((page) => {
+    const initPdfPage = () => {
+        console.log('START init pdf page', this.pdf, pdf.value)
+
+      pdf.getPage(slide.data.page).then((page) => {
+        console.log('THEN init pdf page', page)
+
         let canvas = canvasPdf.value
         let context = canvas.getContext('2d')
         let viewport = page.getViewport(1)
@@ -70,6 +101,7 @@ export default class Doc extends SlideModule {
         canvas.width = viewport.width
         page.render(renderContext);
       }).catch((err) => {
+        console.log('ERROR init pdf page', err)
         // this.context.next()
       });
     };
@@ -79,7 +111,7 @@ export default class Doc extends SlideModule {
         class: "h-full w-full text-center items-center",
         ref: canvasContainer
       }, [
-        h('canvas', { ref: canvasPdf }, () => []),
+        h('canvas', { ref: canvasPdf }),
       ])
     ]
   }
