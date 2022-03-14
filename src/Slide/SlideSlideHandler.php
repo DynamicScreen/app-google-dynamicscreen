@@ -51,9 +51,7 @@ class SlideSlideHandler extends SlideHandler
             
             foreach ($remoteFileArray as $remoteFile) {
                 if ($remoteFile) {
-                    $urls = Arr::get($remoteFile, 'metadata.urls');
-                $this->addSlide($remoteFile);
-                    return ;
+                    $urls = Arr::get($remoteFile, 'metadata.urls', []);
                     foreach ($urls as $url) {
                         $str_amazon_identifier = explode("/", $url);
                         $slide_identifier = 'dynamicscreen-gslide-' . $str_amazon_identifier[sizeof($str_amazon_identifier) - 1];
