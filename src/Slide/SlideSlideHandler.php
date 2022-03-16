@@ -72,7 +72,7 @@ class SlideSlideHandler extends SlideHandler
         }
     }
 
-    public function getValidations(array $options)
+    public function getValidations($options = null): array
     {
 
         $driver = $this->getAuthProvider(Arr::get($options, 'accounts', []));

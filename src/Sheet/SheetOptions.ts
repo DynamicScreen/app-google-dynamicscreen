@@ -36,14 +36,16 @@ export default class SheetOptions extends SlideOptionsModule {
     
     const use_share_account = toRef(props.modelValue, 'use_share_account') || ref(false);
     const remoteFiles = toRef(props.modelValue, 'remoteFiles') || ref([]);
+    const formatRemoteFiles = {
+      get: (val) => Array.isArray(val) && val.length ? val[0] : val,
+      set: (val) => !Array.isArray(val) ? [val] : val,
+    }
 
     const url_help = computed(() => {
       return use_share_account.value
         ? this.t('modules.sheet.options.url.must_be_shared_with')
         : this.t('modules.sheet.options.url.must_be_accessible_with')
     });
-
-    console.log('account: ', account.value)
 
     this.context.getAccountData?.("google-driver", null, {
       onChange: (accountId: number | undefined) => {
@@ -83,7 +85,8 @@ export default class SheetOptions extends SlideOptionsModule {
             account_id: account.value as Number,
             multiple: true,
             "modelValue:account_id": account.value,
-            ...update.option('remoteFiles')
+            //@ts-ignore
+            ...update.option('remoteFiles', formatRemoteFiles)
           })
         ]),
       ]),

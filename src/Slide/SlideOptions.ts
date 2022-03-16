@@ -24,13 +24,12 @@ export default class SlideOptions extends SlideOptionsModule {
       console.log('share acc changed', val)
     })
     context.setOption('use_share_account', false)
-    // const use_share_account = toRef(props.modelValue, 'use_share_account') || (() => {
-    //   context.setOption('use_share_account', false)
-    //   return ref(false)
-    // })();
-
 
     const remoteFiles = toRef(props.modelValue, 'remoteFiles') || ref([]);
+    const formatRemoteFiles = {
+      get: (val) => Array.isArray(val) && val.length ? val[0] : val,
+      set: (val) => !Array.isArray(val) ? [val] : val,
+    }
     
     context.getAccountData?.("google-driver", null, {
       onChange: (accountId: number | undefined) => {
@@ -69,7 +68,8 @@ export default class SlideOptions extends SlideOptionsModule {
             account_id: account.value as Number,
             multiple: true,
             "modelValue:account_id": account.value,
-            ...update.option('remoteFiles')
+            //@ts-ignore
+            ...update.option('remoteFiles', formatRemoteFiles)
           })
         ]),
       ]),

@@ -27,6 +27,11 @@ export default class DocOptions extends SlideOptionsModule {
         : this.t('modules.doc.options.url.must_be_accessible_with')
     });
 
+    const formatRemoteFiles = {
+      get: (val) => Array.isArray(val) && val.length ? val[0] : val,
+      set: (val) => !Array.isArray(val) ? [val] : val,
+    }
+
     this.context.getAccountData?.("google-driver", null, {
       onChange: (accountId: number | undefined) => {
         if (accountId) account.value = accountId
@@ -64,7 +69,8 @@ export default class DocOptions extends SlideOptionsModule {
             account_id: account.value as Number,
             multiple: true,
             "modelValue:account_id": account.value,
-            ...update.option('remoteFiles')
+            //@ts-ignore
+            ...update.option('remoteFiles', formatRemoteFiles)
           })
         ]),
       ]),
