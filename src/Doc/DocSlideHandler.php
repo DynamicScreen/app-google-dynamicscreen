@@ -33,7 +33,7 @@ class DocSlideHandler extends SlideHandler
     {
         $rules = ['required_if:type,url', 'regex:/(^https?:\/\/)?docs.google.com\/document\/d\/.*\/edit/'];
         
-        if (Arr::get($options, 'url', '')) {
+        if (Arr::get($options, 'url')) {
             $driver = $this->getAuthProvider(Arr::get($options, 'accounts', []));
             preg_match('/docs.google.com\/document\/d\/(.*)\//', Arr::get($options, 'url', ''), $matches);
             $rules[] = new CheckGoogleSlideUrl($matches[1] ?? null, $driver);
