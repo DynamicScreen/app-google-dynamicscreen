@@ -74,11 +74,13 @@ class SlideSlideHandler extends SlideHandler
 
     public function getValidations($options = null): array
     {
-
-        $driver = $this->getAuthProvider(Arr::get($options, 'accounts', []));
-
-        preg_match('/docs.google.com\/presentation\/d\/(.*)\//', Arr::get($options, 'url', ''), $matches);
-        $rules = ['required_if:type,url', 'regex:/(^https?:\/\/)?docs.google.com\/presentation\/d\/.*\/edit/', new CheckGoogleSlideUrl($matches[1] ?? null, $driver)];
+        $rules = ['required_if:type,url', 'regex:/(^https?:\/\/)?docs.google.com\/presentation\/d\/.*\/edit/'];
+        
+        if (Arr::get($options, 'url', '')) {
+            $driver = $this->getAuthProvider(Arr::get($options, 'accounts', []));
+            preg_match('/docs.google.com\/presentation\/d\/(.*)\//', Arr::get($options, 'url', ''), $matches);
+            $rules[] = new CheckGoogleSlideUrl($matches[1] ?? null, $driver);
+        }
 
         return [
             'rules' => [
